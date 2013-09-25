@@ -34,7 +34,7 @@ void processPacket(u_char *arg, const struct pcap_pkthdr* pkthdr, const u_char *
  for (i=0; i<pkthdr->len; i++){ 
 
     if ( isprint(packet[i]) ) /* If it is a printable character, print it */
-        printf("%c ", packet[i]); 
+        printf("%c ",(char) packet[i]); 
     else 
         printf(". "); 
     
