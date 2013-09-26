@@ -1,0 +1,30 @@
+
+Basic Operations in SQLite :
+
+1. Open SQLite session in terminal
+        
+        $ sqlite3 /path/to/db_filename.db
+
+
+2. Create a Table
+
+        $ create table table_name( var_name var_type(size),....);
+        
+        # an example
+        $ create table tab00(id smallint, desc varchar(20));
+
+
+3. Display a Table's contents
+
+        $ select * from table_name;
+
+
+4. Insert into Table
+
+        $ insert into table_name values(value00,value01,....);
+
+        # an example
+        $ insert into tab00 values(2, 'description for 2');
+
+
+*** UNDER CONSTRUCTION ***
