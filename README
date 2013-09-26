@@ -1,4 +1,6 @@
 
 3. Compilation
 
-        $ gcc ip-file.c -lpcap -o op-file.op
+        $ gcc ip-file.c -lpcap -lsqlite3 -o op-file.op
+        # lpcap -> libpcap lib
+        # lsqlite3 -> SQLite lib
