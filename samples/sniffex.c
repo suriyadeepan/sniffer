@@ -1,9 +1,3 @@
-
-#define APP_NAME		"sniffex"
-#define APP_DESC		"Sniffer example using libpcap"
-#define APP_COPYRIGHT	"Copyright (c) 2005 The Tcpdump Group"
-#define APP_DISCLAIMER	"THERE IS ABSOLUTELY NO WARRANTY FOR THIS PROGRAM."
-
 #include <pcap.h>
 #include <stdio.h>
 #include <string.h>
@@ -14,6 +8,9 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+
+// Output file name
+#define OFILE_NAME "sample_trace.pcap"
 
 /* default snap length (maximum bytes per packet to capture) */
 #define SNAP_LEN 1518
@@ -75,6 +72,14 @@ struct sniff_tcp {
         u_short th_urp;                 /* urgent pointer */
 };
 
+
+
+// the dump file
+pcap_dumper_t *dumpfile;
+
+
+
+
 void
 got_packet(u_char *args, const struct pcap_pkthdr *header, const u_char *packet);
 
@@ -83,44 +88,6 @@ print_payload(const u_char *payload, int len);
 
 void
 print_hex_ascii_line(const u_char *payload, int len, int offset);
-
-void
-print_app_banner(void);
-
-void
-print_app_usage(void);
-
-/*
- * app name/banner
- */
-void
-print_app_banner(void)
-{
-
-	printf("%s - %s\n", APP_NAME, APP_DESC);
-	printf("%s\n", APP_COPYRIGHT);
-	printf("%s\n", APP_DISCLAIMER);
-	printf("\n");
-
-return;
-}
-
-/*
- * print help text
- */
-void
-print_app_usage(void)
-{
-
-	printf("Usage: %s [interface]\n", APP_NAME);
-	printf("\n");
-	printf("Options:\n");
-	printf("    interface    Listen on <interface> for packets.\n");
-	printf("\n");
-
-return;
-}
-
 /*
  * print data in rows of 16 bytes: offset   hex   ascii
  *
@@ -237,6 +204,8 @@ got_packet(u_char *args, const struct pcap_pkthdr *header, const u_char *packet)
 	int size_ip;
 	int size_tcp;
 	int size_payload;
+
+	pcap_dump( (unsigned char *)dumpfile , header,packet);
 	
 	printf("\nPacket number %d:\n", count);
 	count++;
@@ -316,13 +285,13 @@ int main(int argc, char **argv)
 	pcap_t *handle;				/* packet capture handle */
 
 	//char filter_exp[] = "ip host 74.125.236.120";
-	char filter_exp[] = "ip";
+	char filter_exp[] = "ip || tcp";
 	struct bpf_program fp;			/* compiled filter program (expression) */
 	bpf_u_int32 mask;			/* subnet mask */
 	bpf_u_int32 net;			/* ip */
 	int num_packets = 10;			/* number of packets to capture */
 
-	print_app_banner();
+	
 
 	/* check for capture device name on command-line */
 	if (argc == 2) {
@@ -330,7 +299,6 @@ int main(int argc, char **argv)
 	}
 	else if (argc > 2) {
 		fprintf(stderr, "error: unrecognized command-line options\n\n");
-		print_app_usage();
 		exit(EXIT_FAILURE);
 	}
 	else {
@@ -383,8 +351,19 @@ int main(int argc, char **argv)
 		exit(EXIT_FAILURE);
 	}
 
+	//open the dump file
+
+        dumpfile=pcap_dump_open(fp, OFILE_NAME);
+  	
+        if(dumpfile==NULL){
+  	        fprintf(stderr,"\nError opening output file\n");
+  	        return;
+  	}
+
+
 	/* now we can set our callback function */
 	pcap_loop(handle, num_packets, got_packet, NULL);
+
 
 	/* cleanup */
 	pcap_freecode(&fp);
