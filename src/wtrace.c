@@ -6,7 +6,7 @@
 #define MAX_PRINT 80
 #define MAX_LINE 16
 
-#define MAX_PKT_COUNT 10000
+#define MAX_PKT_COUNT 100
 
 int gPkt_count = 0;
 
@@ -139,6 +139,7 @@ void dispatcher_handler(u_char *dumpfile,
     if(gPkt_count >= MAX_PKT_COUNT){
        
         pcap_dump_close(dumpfile);
+        system("tshark -n -r sample.pcap -E aggregator=,  > sample.csv"); 
         exit(1);
         }
 
