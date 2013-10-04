@@ -1,6 +1,24 @@
 
+1. Intro
+
+        ****** Under Construction ******
+
+2. Installation - dependencies
+
+        * Ubuntu (12.04)
+
+        $ sudo apt-get install libpcap-dev libpcap0.8 libpcap0.8-dev
+        $ sudo apt-get install tshark
+
+        * Fedora (18)
+
+        # 64 bit version
+        $ sudo yum install libpcap.x86_64 libpcap-devel.x86_64
+
+        # 32 bit version
+        $ sudo yum install libpcap.i686 libpcap-devel.i686
+
 3. Compilation
 
-        $ gcc ip-file.c -lpcap -lsqlite3 -o op-file.op
+        $ gcc ip-file.c -lpcap -o op-file.op
         # lpcap -> libpcap lib
-        # lsqlite3 -> SQLite lib
