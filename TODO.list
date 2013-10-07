@@ -1,15 +1,22 @@
 
--> This list of features to be implemented goes here...
+*** the list of features to be implemented goes here ***
 
--> Basics
+-> Basics 
 
+[ ] write a python script to add generated .csv file to MySQL DB
+        - invoke python script from pcap based C program
+
+[ ] try integrating "tshark" into the project
+        - converts .pcap into .csv
+
+[ ] try out LIBTRACE
+        - libtrace is 40% faster than libpcap
+
+
+-> Extras
+
+[ ]
+[ ]
 [ ] 
-[ ]
-[ ]
 
-
--> Advanced
-
-[ ]
-[ ]
-[ ]
+*** ---------------------------------------------- ***
