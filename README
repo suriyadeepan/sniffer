@@ -12,11 +12,8 @@
 
         * Fedora (18)
 
-        # 64 bit version
         $ sudo yum install libpcap.x86_64 libpcap-devel.x86_64
-
-        # 32 bit version
-        $ sudo yum install libpcap.i686 libpcap-devel.i686
+        $ sudo yum install wireshark
 
 3. Compilation
 
